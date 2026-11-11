@@ -1,0 +1,8 @@
+{
+  "name": "gregllm",
+  "owner": { "name": "jellyman552", "url": "https://github.com/jellyman552" },
+  "metadata": { "description": "GTNH recipe calculator skill for Claude Code", "version": "0.1.0" },
+  "plugins": [
+    { "name": "gregllm", "source": "./", "description": "Ask Claude what your GregTech: New Horizons build will cost.", "category": "productivity", "version": "0.1.0" }
+  ]
+}

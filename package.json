@@ -1,0 +1,14 @@
+{
+  "name": "gregllm",
+  "version": "0.1.0",
+  "description": "Ask Claude what your GregTech: New Horizons build will cost. A Claude Code skill that breaks multiblocks and batch crafts down to raw materials, using real GTNH 2.9.0 recipe data.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "setup": "node scripts/setup-data.mjs",
+    "lookup": "node scripts/lookup.mjs",
+    "calc": "node scripts/calc.mjs"
+  }
+}

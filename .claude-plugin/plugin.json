@@ -1,0 +1,10 @@
+{
+  "name": "gregllm",
+  "version": "0.1.0",
+  "description": "Ask Claude what your GregTech: New Horizons build will cost. Breaks multiblocks and batch crafts down to raw materials using real GTNH 2.9.0 recipe data.",
+  "author": { "name": "jellyman552", "url": "https://github.com/jellyman552" },
+  "repository": "https://github.com/jellyman552/gregllm",
+  "license": "MIT",
+  "keywords": ["gtnh", "gregtech", "minecraft", "recipe-calculator", "claude-code"],
+  "skills": "./.claude/skills/"
+}

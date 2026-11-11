@@ -1,0 +1,7 @@
+{
+  "targets": [{ "item": "Electric Blast Furnace", "amount": 4 }],
+  "raw": ["Rubber Bar"],
+  "stopAt": ["ingot", "gem", "dust", "ore", "log"],
+  "choices": {},
+  "oreDict": { "o:circuitBasic": "Electronic Circuit" }
+}
