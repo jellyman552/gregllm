@@ -6,7 +6,11 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 import { gunzipSync } from "node:zlib";
-const SOURCE = { repo: "ShadowTheAge/gtnh-data", branch: "2.9.0-v7", commit: "d200440ea31d0357068a294d7312acf1146de909", gtnhVersion: "2.9.0" };
+import { createHash } from "node:crypto";
+// sha256 is the hash of data.bin at that commit. When moving to a new pack version, update it too
+// (run setup once with the new commit; the error message prints the new hash).
+const SOURCE = { repo: "ShadowTheAge/gtnh-data", branch: "2.9.0-v7", commit: "d200440ea31d0357068a294d7312acf1146de909", gtnhVersion: "2.9.0",
+  sha256: "624c9a20c8476dc630c274145dc04c72d7c582e130a3599dc49ce9aee0a2fe73" };
 const args = process.argv.slice(2);
 const inIdx = args.indexOf("--input");
 const inPath = inIdx >= 0 ? args.splice(inIdx, 2)[1] : null;
@@ -19,6 +23,12 @@ else {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Download failed: HTTP ${res.status}`);
   raw = Buffer.from(await res.arrayBuffer());
+}
+const hash = createHash("sha256").update(raw).digest("hex");
+if (hash !== SOURCE.sha256) {
+  console.error(`data.bin hash mismatch.\n  expected ${SOURCE.sha256}\n  got      ${hash}\n` +
+    "The download may be corrupt or the file changed. If you changed SOURCE on purpose, put the new hash in SOURCE.sha256.");
+  process.exit(1);
 }
 const buf = gunzipSync(raw);
 const ab = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);

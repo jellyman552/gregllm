@@ -21,14 +21,15 @@ was installed without the repo: tell the user to run
 
 ## Step 0: data check (every session)
 
-If `data/recipes.json` is missing, run setup first and tell the user it downloads about 18 MB once:
+If `data/recipes.json` is missing, run setup first and tell the user it downloads about 18 MB once
+(about 93 MB on disk after conversion):
 
 ```bash
 node scripts/setup-data.mjs
 ```
 
-It downloads the GTNH 2.9.0 recipe export from ShadowTheAge/gtnh-data (pinned commit) and converts
-it locally. That data has no license, so it must never be committed or uploaded anywhere.
+It downloads the GTNH 2.9.0 recipe export from ShadowTheAge/gtnh-data (pinned commit), checks its
+SHA-256 hash, and converts it locally. That data has no license, so it must never be committed or uploaded anywhere.
 
 ## Commands
 
@@ -39,8 +40,8 @@ it locally. That data has no license, so it must never be committed or uploaded 
 | Recipes that use an item | `node scripts/lookup.mjs uses <item>` |
 | One recipe in full | `node scripts/lookup.mjs recipe <recipe id>` |
 | Machines / multiblocks for a recipe type | `node scripts/lookup.mjs machines <text>` |
-| Raw materials for a build | `node scripts/calc.mjs plans/<name>.json [--auto] [--json]` |
-| Quick one-off | `node scripts/calc.mjs --item "<name>" --amount N --auto` |
+| Raw materials for a build | `node scripts/calc.mjs plans/<name>.json [--auto] [--tier LV] [--json]` |
+| Quick one-off | `node scripts/calc.mjs --item "<name>" --amount N --auto --tier LV` |
 
 Item names are matched case-insensitively. When a name is ambiguous, run `find` and use the id
 (`i:mod:name:damage` for items, `f:mod:name` for fluids).
@@ -51,17 +52,20 @@ Item names are matched case-insensitively. When a name is ambiguous, run `find` 
    want just the controller or the full structure. The data has recipes, not structure block counts,
    so for a full structure ask for (or look up together) the casing, coil, hatch and bus counts and
    add each as a target.
-2. **Write a plan** to `plans/<short-name>.json` (copy `plans/example.json`). Plans live in the
+2. **Ask the player's voltage tier before running `--auto`** (LV, MV, HV, ...) unless they already
+   said it. Put it in the plan as `maxTier` (or pass `--tier`). The script has no tier limit by
+   default, so without this it can pick recipes the player can't run yet.
+3. **Write a plan** to `plans/<short-name>.json` (copy `plans/example.json`). Plans live in the
    user's checkout and git ignores them, apart from the example.
-3. **Run `calc.mjs --auto`** for a first draft.
-4. **Review the recipe choices with the user.** GTNH often has many recipes for one item: hand
+4. **Run `calc.mjs --auto`** for a first draft. Read the `Warnings` section: it lists recipes above
+   `maxTier`, items whose only recipe loops back, and anything cut off by `maxDepth`. Tell the user
+   about each one.
+5. **Review the recipe choices with the user.** GTNH often has many recipes for one item: hand
    crafting, assembler, recycling, alternatives at higher tiers. `--auto` picks a cheap, low-tier
    recipe and avoids recycling loops, but it is only a draft. Show the important auto picks
    (circuits, plates, wires, anything above the user's current voltage tier) and ask about any that
    look off. Use `lookup.mjs recipes` to show alternatives. Pin each decision in `plan.choices` and
    ore dictionary picks (such as which circuit fills `o:circuitBasic`) in `plan.oreDict`.
-5. **Ask the user's tier and progress** if it matters. Someone in LV can't use an HV assembler
-   recipe. Prefer recipes at or below their tier.
 6. **Re-run without `--auto`** once the choices are pinned, so the result is reproducible.
    `needsChoice` lists anything still open.
 7. **Answer** with the raw material list first, then the machine steps grouped by machine, total EU,
@@ -70,8 +74,20 @@ Item names are matched case-insensitively. When a name is ambiguous, run `find` 
 
 ## How the calculator counts
 
-- `stopAt` (default ingots, gems, dusts, ores and logs) marks where expansion stops. Base gases,
-  water, oil and `Molten <metal>` count as raw. Put `stopAt: []` in the plan to expand down to ores.
+- `stopAt` (default ingots, gems, dusts, ores, logs, cotton and slimeballs) marks where expansion
+  stops. A plan's `stopAt` **replaces** the default list, so copy the whole list if you only want to
+  add to it. Put `stopAt: []` in the plan to expand down to ores.
+- Base gases, water, oil and every `Molten <x>` fluid count as raw, including plastics such as
+  Molten Polyethylene: expansion stops at the molten fluid. Vanilla world blocks (cobblestone, sand,
+  gravel, ...) and Sticky Resin (from a treetap) also count as raw.
+- `--auto` ranks each recipe by its whole chain down to raw materials: every step costs 1, each
+  voltage tier above LV adds 20 per step, steps above `maxTier` add 1000, and byproduct or machine
+  recipes cost a little more than hand crafting. Items with no usable recipe cost 50, so salvage
+  recipes that take apart some unobtainable mod item lose. The cheapest chain can never loop.
+  Any dust counts as raw, so a chain may start from an unusual dust (such as Liveroot Dust): check
+  the raw list for those.
+- When two items share a display name, the output adds the mod, e.g. `Wood Pulp (Forestry)` vs
+  `Wood Pulp (gregtech)`.
 - Programmed circuits, molds, lenses and other 0-amount inputs are not consumed. Single-use GT
   tools from crafting recipes are skipped because players use durable tools.
 - Output chances are averaged (expected value). Leftover outputs feed later steps before anything
@@ -84,4 +100,5 @@ Item names are matched case-insensitively. When a name is ambiguous, run `find` 
 - The data is GTNH **2.9.0** (it comes from the web calculator at https://shadowtheage.github.io/gtnh/).
   Other pack versions may differ.
 - There are no multiblock structure block counts and no overclock or parallel math yet.
+- A calc run with `--auto` takes a few seconds (it costs every recipe chain in the pack once).
 - Auto recipe choice is a heuristic. Always confirm it before giving a final shopping list.

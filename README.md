@@ -21,7 +21,8 @@ cd gregllm
 claude
 ```
 
-Then just ask. On first use Claude downloads the recipe data (about 18 MB) and converts it. You can
+Then just ask. On first use Claude downloads the recipe data (about 18 MB, about 93 MB once converted) and
+checks it against a pinned hash. You can
 also run that step yourself:
 
 ```bash
@@ -44,19 +45,25 @@ There's nothing to `npm install`.
 node scripts/lookup.mjs find steel plate
 node scripts/lookup.mjs recipes "Electric Blast Furnace"
 node scripts/lookup.mjs machines blast
-node scripts/calc.mjs --item "Electric Blast Furnace" --amount 4 --auto
+node scripts/calc.mjs --item "Electric Blast Furnace" --amount 4 --auto --tier LV
 node scripts/calc.mjs plans/example.json --auto
 ```
+
+`--tier` (or `maxTier` in a plan) is your voltage tier. `--auto` then avoids recipes above it and
+warns about any it can't avoid. Claude asks for your tier before running it.
 
 A plan file (`plans/*.json`) lists the targets and pins your choices: which recipe makes an item,
 which item fills an ore dictionary slot, and where to stop expanding (ingots and dusts by default).
 See `plans/example.json` and `.claude/skills/gregllm/SKILL.md`.
 
+To run the tests: `npm test` (the ones that need recipe data are skipped until you've run setup).
+
 ## Limits
 
 - The recipe data is GTNH **2.9.0**. Other versions will be off in places.
-- With `--auto`, recipe choices are a cheap, low-tier first guess. Claude checks them with you
-  before giving a final answer.
+- With `--auto`, recipe choices are the cheapest low-tier chain the calculator can find, but still
+  a first guess. Claude checks them with you before giving a final answer.
+- Molten fluids (metals and plastics) count as raw materials; the calculator doesn't expand them.
 - Multiblock structure block counts, overclocking and parallels aren't modeled yet.
 
 ## Data and credits

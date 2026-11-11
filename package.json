@@ -9,6 +9,7 @@
   "scripts": {
     "setup": "node scripts/setup-data.mjs",
     "lookup": "node scripts/lookup.mjs",
-    "calc": "node scripts/calc.mjs"
+    "calc": "node scripts/calc.mjs",
+    "test": "node --test"
   }
 }
