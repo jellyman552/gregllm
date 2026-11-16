@@ -58,6 +58,32 @@ See `plans/example.json` and `.claude/skills/gregllm/SKILL.md`.
 
 To run the tests: `npm test` (the ones that need recipe data are skipped until you've run setup).
 
+## Play the text game
+
+gregllm also has a text adventure inspired by GTNH, with Claude as the game master. Start with
+your bare hands, make flint tools, find ore veins, smelt, build steam machines, then LV machines
+and power. Say "let's play the GTNH game" in Claude Code.
+
+> You: chop some trees and make a crafting table
+>
+> Claude: You spend a minute on a stand of oaks: 10 Oak Logs, 3 saplings and a few sticks.
+> GTNH won't let you skip the flint, though: the Crafting Table needs 2 Flint and 2 logs, and
+> you have none. Gravel is the place to look (3 gravel make 1 flint by hand).
+
+Every action runs through `scripts/game.mjs`, which uses the real GTNH 2.9.0 recipes, so you can
+only make what the pack lets you make. Progress follows the real **GTNH 2.9.0 quest book**: the
+And So It Begins, Stone Age, Steam and LV lines, with quest text, tasks and rewards. The quest
+book is downloaded once to your machine:
+
+```bash
+node scripts/setup-quests.mjs   # needs git; sparse-clones about 40 MB
+```
+
+What's simplified: the world (gathering, ore veins, mobs), tool recipes (GregTech and Tinkers'
+tool recipes aren't in the export), fuel values and steam numbers are game rules in
+`game/world.json`. There's no hunger or death, and the only multiblocks are the Coke Oven and
+Bricked Blast Furnace, so the playable slice ends around LV. Saves live in `saves/`.
+
 ## Limits
 
 - The recipe data is GTNH **2.9.0**. Other versions will be off in places.
@@ -74,5 +100,11 @@ The recipe data is the export behind ShadowTheAge's [GTNH calculator](https://sh
 That data has no license and contains content owned by Mojang, the GTNH team and mod authors, so
 this repo **does not include it**. `setup-data.mjs` downloads a pinned copy on your machine.
 `data/` is git-ignored, so please don't commit or redistribute it.
+
+The game's quest book is the GTNH team's, from
+[GTNewHorizons/GT-New-Horizons-Modpack](https://github.com/GTNewHorizons/GT-New-Horizons-Modpack)
+(`config/betterquesting/DefaultQuests`, tag 2.9.0), licensed
+[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). `setup-quests.mjs` fetches
+it on your machine and it is never committed here.
 
 The code in this repo is MIT licensed. This project isn't affiliated with GTNH or ShadowTheAge.

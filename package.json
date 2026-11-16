@@ -8,6 +8,8 @@
   "engines": { "node": ">=18" },
   "scripts": {
     "setup": "node scripts/setup-data.mjs",
+    "setup:quests": "node scripts/setup-quests.mjs",
+    "game": "node scripts/game.mjs",
     "lookup": "node scripts/lookup.mjs",
     "calc": "node scripts/calc.mjs",
     "test": "node --test"

@@ -1,0 +1,1032 @@
+{
+  "_about": "Game rules for the GTNH text game. Everything here is game design written for gregllm (MIT), not GTNH data. Recipes for crafting and machines come from the real GTNH 2.9.0 recipe export; this file only covers what that export lacks (the world, ore veins, tool recipes, fuel values, steam and power numbers). Numbers marked approximate are balance values loosely based on GTNH, not exact pack values.",
+  "freeFluids": [
+    "f:minecraft:water"
+  ],
+  "steamFluid": "f:IC2:ic2steam",
+  "gather": {
+    "dirt": {
+      "item": "i:minecraft:dirt:0",
+      "seconds": 1.5,
+      "tool": "shovel",
+      "toolSpeed": 3
+    },
+    "gravel": {
+      "item": "i:minecraft:gravel:0",
+      "seconds": 1.5,
+      "tool": "shovel",
+      "toolSpeed": 3,
+      "bonus": [
+        {
+          "item": "i:minecraft:flint:0",
+          "chance": 0.1
+        }
+      ]
+    },
+    "sand": {
+      "item": "i:minecraft:sand:0",
+      "seconds": 1.5,
+      "tool": "shovel",
+      "toolSpeed": 3
+    },
+    "clay": {
+      "item": "i:minecraft:clay_ball:0",
+      "amount": 4,
+      "seconds": 2,
+      "tool": "shovel",
+      "toolSpeed": 3,
+      "note": "one clay block drops 4 clay balls"
+    },
+    "log": {
+      "item": "i:minecraft:log:0",
+      "seconds": 6,
+      "tool": "axe",
+      "toolSpeed": 4,
+      "bonus": [
+        {
+          "item": "i:minecraft:sapling:0",
+          "chance": 0.3
+        },
+        {
+          "item": "i:minecraft:stick:0",
+          "chance": 0.5
+        },
+        {
+          "item": "i:minecraft:apple:0",
+          "chance": 0.05
+        }
+      ]
+    },
+    "cobblestone": {
+      "item": "i:minecraft:cobblestone:0",
+      "seconds": 2,
+      "tool": "pickaxe",
+      "needsTool": true,
+      "minLevel": 0
+    },
+    "sugar cane": {
+      "item": "i:minecraft:reeds:0",
+      "seconds": 1
+    },
+    "cactus": {
+      "item": "i:minecraft:cactus:0",
+      "seconds": 1.5
+    },
+    "sticky resin": {
+      "item": "i:IC2:itemHarz:0",
+      "seconds": 20,
+      "needsItem": "i:IC2:itemTreetap:0",
+      "note": "tapping rubber trees with a Treetap"
+    }
+  },
+  "hunt": {
+    "cow": {
+      "seconds": 30,
+      "drops": [
+        {
+          "item": "i:minecraft:leather:0",
+          "min": 0,
+          "max": 2
+        },
+        {
+          "item": "i:minecraft:beef:0",
+          "min": 1,
+          "max": 3
+        }
+      ],
+      "target": "Cow"
+    },
+    "sheep": {
+      "seconds": 30,
+      "drops": [
+        {
+          "item": "i:minecraft:wool:0",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item": "i:harvestcraft:muttonrawItem:0",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "target": "Sheep"
+    },
+    "pig": {
+      "seconds": 30,
+      "drops": [
+        {
+          "item": "i:minecraft:porkchop:0",
+          "min": 1,
+          "max": 3
+        }
+      ],
+      "target": "Pig"
+    },
+    "chicken": {
+      "seconds": 25,
+      "drops": [
+        {
+          "item": "i:minecraft:chicken:0",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item": "i:minecraft:feather:0",
+          "min": 0,
+          "max": 2
+        }
+      ],
+      "target": "Chicken"
+    },
+    "spider": {
+      "seconds": 45,
+      "drops": [
+        {
+          "item": "i:minecraft:string:0",
+          "min": 0,
+          "max": 2
+        },
+        {
+          "item": "i:minecraft:spider_eye:0",
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "target": "Spider",
+      "danger": true
+    },
+    "zombie": {
+      "seconds": 45,
+      "drops": [
+        {
+          "item": "i:minecraft:rotten_flesh:0",
+          "min": 0,
+          "max": 2
+        }
+      ],
+      "target": "Zombie",
+      "danger": true
+    },
+    "skeleton": {
+      "seconds": 45,
+      "drops": [
+        {
+          "item": "i:minecraft:bone:0",
+          "min": 0,
+          "max": 2
+        },
+        {
+          "item": "i:minecraft:arrow:0",
+          "min": 0,
+          "max": 2
+        }
+      ],
+      "target": "Skeleton",
+      "danger": true
+    },
+    "creeper": {
+      "seconds": 50,
+      "drops": [
+        {
+          "item": "i:minecraft:gunpowder:0",
+          "min": 0,
+          "max": 2
+        }
+      ],
+      "target": "Creeper",
+      "danger": true
+    }
+  },
+  "_veins": "Overworld ore veins, simplified from GTNH 2.9.0 ore generation. Weights are primary/secondary/in-between/sporadic, about 4/3/2/1. Mining drops Raw ores, like a pickaxe without silk touch. 'level' is the pickaxe mining level needed (1 flint or stone, 2 iron or bronze, 3 diamond or steel).",
+  "veinSearchSeconds": 600,
+  "mineSeconds": 3,
+  "veins": [
+    {
+      "key": "coal",
+      "name": "Coal vein",
+      "weight": 8,
+      "level": 1,
+      "size": [
+        200,
+        400
+      ],
+      "ores": {
+        "Coal": 4,
+        "Lignite Coal": 2
+      }
+    },
+    {
+      "key": "lignite",
+      "name": "Lignite vein",
+      "weight": 6,
+      "level": 1,
+      "size": [
+        200,
+        400
+      ],
+      "ores": {
+        "Lignite Coal": 6
+      }
+    },
+    {
+      "key": "limonite",
+      "name": "Limonite vein",
+      "weight": 7,
+      "level": 2,
+      "size": [
+        250,
+        450
+      ],
+      "ores": {
+        "Brown Limonite": 4,
+        "Yellow Limonite": 3,
+        "Banded Iron": 2,
+        "Malachite": 1
+      }
+    },
+    {
+      "key": "magnetite",
+      "name": "Magnetite vein",
+      "weight": 6,
+      "level": 2,
+      "size": [
+        250,
+        450
+      ],
+      "ores": {
+        "Magnetite": 4,
+        "Vanadium Magnetite": 2,
+        "Iron": 2,
+        "Gold": 1
+      }
+    },
+    {
+      "key": "chalcopyrite",
+      "name": "Chalcopyrite vein",
+      "weight": 7,
+      "level": 2,
+      "size": [
+        250,
+        450
+      ],
+      "ores": {
+        "Chalcopyrite": 4,
+        "Iron": 3,
+        "Pyrite": 2,
+        "Copper": 1
+      }
+    },
+    {
+      "key": "tin",
+      "name": "Tin vein",
+      "weight": 6,
+      "level": 2,
+      "size": [
+        200,
+        400
+      ],
+      "ores": {
+        "Tin": 4,
+        "Cassiterite": 3
+      }
+    },
+    {
+      "key": "redstone",
+      "name": "Redstone vein",
+      "weight": 4,
+      "level": 2,
+      "size": [
+        150,
+        300
+      ],
+      "ores": {
+        "Redstone": 4,
+        "Ruby": 2,
+        "Cinnabar": 2
+      }
+    },
+    {
+      "key": "salts",
+      "name": "Salts vein",
+      "weight": 4,
+      "level": 2,
+      "size": [
+        150,
+        300
+      ],
+      "ores": {
+        "Rock Salt": 4,
+        "Salt": 3,
+        "Lepidolite": 2,
+        "Spodumene": 1
+      }
+    },
+    {
+      "key": "soapstone",
+      "name": "Soapstone vein",
+      "weight": 3,
+      "level": 2,
+      "size": [
+        150,
+        300
+      ],
+      "ores": {
+        "Soapstone": 4,
+        "Talc": 3,
+        "Glauconite": 2,
+        "Pentlandite": 1
+      }
+    },
+    {
+      "key": "apatite",
+      "name": "Apatite vein",
+      "weight": 3,
+      "level": 2,
+      "size": [
+        150,
+        300
+      ],
+      "ores": {
+        "Apatite": 4,
+        "Tricalcium Phosphate": 3,
+        "Pyrochlore": 1
+      }
+    },
+    {
+      "key": "galena",
+      "name": "Galena vein",
+      "weight": 4,
+      "level": 2,
+      "size": [
+        150,
+        300
+      ],
+      "ores": {
+        "Galena": 4,
+        "Silver": 2,
+        "Lead": 2
+      }
+    },
+    {
+      "key": "nickel",
+      "name": "Nickel vein",
+      "weight": 3,
+      "level": 2,
+      "size": [
+        150,
+        300
+      ],
+      "ores": {
+        "Garnierite": 3,
+        "Nickel": 3,
+        "Cobaltite": 2,
+        "Pentlandite": 2
+      }
+    },
+    {
+      "key": "lapis",
+      "name": "Lapis vein",
+      "weight": 3,
+      "level": 2,
+      "size": [
+        150,
+        300
+      ],
+      "ores": {
+        "Lazurite": 4,
+        "Sodalite": 3,
+        "Lapis": 2,
+        "Calcite": 1
+      }
+    },
+    {
+      "key": "diamond",
+      "name": "Diamond vein",
+      "weight": 2,
+      "level": 2,
+      "size": [
+        100,
+        200
+      ],
+      "ores": {
+        "Graphite": 4,
+        "Diamond": 2,
+        "Coal": 2
+      }
+    },
+    {
+      "key": "sphalerite",
+      "name": "Small zinc and sphalerite ores",
+      "weight": 3,
+      "level": 2,
+      "size": [
+        40,
+        80
+      ],
+      "ores": {
+        "Sphalerite": 2,
+        "Zinc": 2,
+        "Tin": 1
+      }
+    }
+  ],
+  "_tools": "GregTech and Tinkers tools are not in the recipe export, so the game uses its own simple recipes. Tools are durable: each use costs 1 durability. 'parts' counts are per tool; 'needs' lists tools you must already own.",
+  "toolMaterials": {
+    "wood": {
+      "level": 0,
+      "durability": 60,
+      "parts": {
+        "plate": "<plankWood>",
+        "ingot": "<plankWood>",
+        "rod": "<stickWood>"
+      }
+    },
+    "flint": {
+      "level": 1,
+      "durability": 120,
+      "parts": {
+        "plate": "i:minecraft:flint:0",
+        "ingot": "i:minecraft:flint:0",
+        "rod": "i:minecraft:flint:0"
+      }
+    },
+    "stone": {
+      "level": 1,
+      "durability": 130,
+      "parts": {
+        "plate": "i:minecraft:cobblestone:0",
+        "ingot": "i:minecraft:cobblestone:0",
+        "rod": "i:minecraft:cobblestone:0"
+      }
+    },
+    "copper": {
+      "level": 1,
+      "durability": 180,
+      "parts": {
+        "plate": "<plateCopper>",
+        "ingot": "<ingotCopper>",
+        "rod": "<stickCopper>"
+      }
+    },
+    "iron": {
+      "level": 2,
+      "durability": 256,
+      "parts": {
+        "plate": "<plateIron>",
+        "ingot": "<ingotIron>",
+        "rod": "<stickIron>"
+      }
+    },
+    "bronze": {
+      "level": 2,
+      "durability": 384,
+      "parts": {
+        "plate": "<plateBronze>",
+        "ingot": "<ingotBronze>",
+        "rod": "<stickBronze>"
+      }
+    },
+    "steel": {
+      "level": 3,
+      "durability": 1024,
+      "parts": {
+        "plate": "<plateSteel>",
+        "ingot": "<ingotSteel>",
+        "rod": "<stickSteel>"
+      }
+    },
+    "diamond": {
+      "level": 3,
+      "durability": 1280,
+      "parts": {
+        "plate": "<gemDiamond>",
+        "ingot": "<gemDiamond>",
+        "rod": "<gemDiamond>"
+      }
+    }
+  },
+  "tools": {
+    "pickaxe": {
+      "name": "Pickaxe",
+      "materials": [
+        "wood",
+        "flint",
+        "stone",
+        "copper",
+        "iron",
+        "bronze",
+        "steel",
+        "diamond"
+      ],
+      "cost": {
+        "ingot": 3,
+        "stick": 2
+      }
+    },
+    "axe": {
+      "name": "Axe",
+      "materials": [
+        "wood",
+        "flint",
+        "stone",
+        "copper",
+        "iron",
+        "bronze",
+        "steel"
+      ],
+      "cost": {
+        "ingot": 3,
+        "stick": 2
+      }
+    },
+    "shovel": {
+      "name": "Shovel",
+      "materials": [
+        "wood",
+        "flint",
+        "stone",
+        "copper",
+        "iron",
+        "bronze",
+        "steel"
+      ],
+      "cost": {
+        "ingot": 1,
+        "stick": 2
+      }
+    },
+    "sword": {
+      "name": "Sword",
+      "materials": [
+        "wood",
+        "flint",
+        "stone",
+        "copper",
+        "iron",
+        "bronze",
+        "steel"
+      ],
+      "cost": {
+        "ingot": 2,
+        "stick": 1
+      }
+    },
+    "hoe": {
+      "name": "Hoe",
+      "materials": [
+        "wood",
+        "flint",
+        "stone",
+        "iron",
+        "bronze",
+        "steel"
+      ],
+      "cost": {
+        "ingot": 2,
+        "stick": 2
+      }
+    },
+    "hammer": {
+      "name": "Hard Hammer",
+      "materials": [
+        "stone",
+        "copper",
+        "iron",
+        "bronze",
+        "steel"
+      ],
+      "cost": {
+        "ingot": 6,
+        "stick": 1
+      },
+      "gt": 12
+    },
+    "softmallet": {
+      "name": "Soft Mallet",
+      "materials": [
+        "wood"
+      ],
+      "cost": {
+        "ingot": 6,
+        "stick": 1
+      },
+      "gt": 14
+    },
+    "wrench": {
+      "name": "Wrench",
+      "materials": [
+        "copper",
+        "iron",
+        "bronze",
+        "steel"
+      ],
+      "cost": {
+        "plate": 5
+      },
+      "needs": [
+        "hammer"
+      ],
+      "gt": 16
+    },
+    "file": {
+      "name": "File",
+      "materials": [
+        "copper",
+        "iron",
+        "bronze",
+        "steel"
+      ],
+      "cost": {
+        "plate": 2,
+        "stick": 1
+      },
+      "gt": 18
+    },
+    "crowbar": {
+      "name": "Crowbar",
+      "materials": [
+        "copper",
+        "iron",
+        "bronze",
+        "steel"
+      ],
+      "cost": {
+        "rod": 3
+      },
+      "needs": [
+        "hammer",
+        "file"
+      ],
+      "gt": 20
+    },
+    "screwdriver": {
+      "name": "Screwdriver",
+      "materials": [
+        "copper",
+        "iron",
+        "bronze",
+        "steel"
+      ],
+      "cost": {
+        "rod": 1,
+        "stick": 1
+      },
+      "needs": [
+        "hammer",
+        "file"
+      ],
+      "gt": 22
+    },
+    "saw": {
+      "name": "Saw",
+      "materials": [
+        "flint",
+        "copper",
+        "iron",
+        "bronze",
+        "steel"
+      ],
+      "cost": {
+        "plate": 2,
+        "stick": 1
+      },
+      "needs": [
+        "file",
+        "hammer"
+      ],
+      "gt": 10
+    },
+    "mortar": {
+      "name": "Mortar",
+      "materials": [
+        "flint",
+        "copper",
+        "iron",
+        "bronze",
+        "steel"
+      ],
+      "cost": {
+        "ingot": 1,
+        "stone": 4
+      },
+      "gt": 24
+    },
+    "wirecutter": {
+      "name": "Wire Cutter",
+      "materials": [
+        "copper",
+        "iron",
+        "bronze",
+        "steel"
+      ],
+      "cost": {
+        "plate": 2,
+        "rod": 2
+      },
+      "needs": [
+        "file",
+        "hammer",
+        "screwdriver"
+      ],
+      "gt": 26
+    },
+    "knife": {
+      "name": "Knife",
+      "materials": [
+        "flint",
+        "copper",
+        "iron",
+        "bronze",
+        "steel"
+      ],
+      "cost": {
+        "plate": 1,
+        "stick": 1
+      },
+      "needs": [
+        "file",
+        "hammer"
+      ],
+      "gt": 34
+    },
+    "butcheryknife": {
+      "name": "Butchery Knife",
+      "materials": [
+        "iron",
+        "bronze",
+        "steel"
+      ],
+      "cost": {
+        "plate": 2,
+        "stick": 1
+      },
+      "needs": [
+        "file",
+        "hammer"
+      ],
+      "gt": 36
+    }
+  },
+  "toolStone": "i:minecraft:cobblestone:0",
+  "toolStick": "<stickWood>",
+  "_singleUseTools": "Recipe inputs that are GregTech single-use tools (ggfab) need the durable tool instead.",
+  "singleUseTools": {
+    "i:ggfab:gt.ggfab.d1:0": "file",
+    "i:ggfab:gt.ggfab.d1:1": "wrench",
+    "i:ggfab:gt.ggfab.d1:2": "crowbar",
+    "i:ggfab:gt.ggfab.d1:3": "wirecutter",
+    "i:ggfab:gt.ggfab.d1:4": "hammer",
+    "i:ggfab:gt.ggfab.d1:5": "softmallet",
+    "i:ggfab:gt.ggfab.d1:6": "screwdriver",
+    "i:ggfab:gt.ggfab.d1:7": "saw"
+  },
+  "_tinkers": "Tinkers' Construct items in quests and rewards map to game tools (material ids: 1 stone, 2 iron, 3 flint, 13 copper, 14 bronze).",
+  "tinkersTools": {
+    "pickaxe": "pickaxe",
+    "hatchet": "axe",
+    "shovel": "shovel",
+    "broadsword": "sword",
+    "mattock": "hoe",
+    "lumberaxe": "axe",
+    "hammer": "pickaxe"
+  },
+  "tinkersHeads": {
+    "pickaxeHead": "pickaxe",
+    "hatchetHead": "axe",
+    "shovelHead": "shovel",
+    "swordBlade": "sword"
+  },
+  "tinkersMaterials": {
+    "0": "wood",
+    "1": "stone",
+    "2": "iron",
+    "3": "flint",
+    "13": "copper",
+    "14": "bronze",
+    "16": "steel"
+  },
+  "_vanillaTools": "Vanilla tools crafted from the recipe data become game tools.",
+  "vanillaTools": {
+    "i:minecraft:wooden_pickaxe:0": [
+      "pickaxe",
+      "wood"
+    ],
+    "i:minecraft:wooden_axe:0": [
+      "axe",
+      "wood"
+    ],
+    "i:minecraft:wooden_shovel:0": [
+      "shovel",
+      "wood"
+    ],
+    "i:minecraft:wooden_hoe:0": [
+      "hoe",
+      "wood"
+    ],
+    "i:minecraft:wooden_sword:0": [
+      "sword",
+      "wood"
+    ],
+    "i:minecraft:stone_pickaxe:0": [
+      "pickaxe",
+      "stone"
+    ],
+    "i:minecraft:stone_axe:0": [
+      "axe",
+      "stone"
+    ],
+    "i:minecraft:stone_shovel:0": [
+      "shovel",
+      "stone"
+    ],
+    "i:minecraft:stone_hoe:0": [
+      "hoe",
+      "stone"
+    ],
+    "i:minecraft:stone_sword:0": [
+      "sword",
+      "stone"
+    ],
+    "i:minecraft:iron_pickaxe:0": [
+      "pickaxe",
+      "iron"
+    ],
+    "i:minecraft:iron_axe:0": [
+      "axe",
+      "iron"
+    ],
+    "i:minecraft:iron_shovel:0": [
+      "shovel",
+      "iron"
+    ],
+    "i:minecraft:iron_hoe:0": [
+      "hoe",
+      "iron"
+    ],
+    "i:minecraft:iron_sword:0": [
+      "sword",
+      "iron"
+    ],
+    "i:minecraft:diamond_pickaxe:0": [
+      "pickaxe",
+      "diamond"
+    ],
+    "i:minecraft:diamond_axe:0": [
+      "axe",
+      "diamond"
+    ],
+    "i:minecraft:diamond_shovel:0": [
+      "shovel",
+      "diamond"
+    ],
+    "i:minecraft:diamond_hoe:0": [
+      "hoe",
+      "diamond"
+    ],
+    "i:minecraft:diamond_sword:0": [
+      "sword",
+      "diamond"
+    ],
+    "i:minecraft:golden_pickaxe:0": [
+      "pickaxe",
+      "copper"
+    ],
+    "i:minecraft:golden_axe:0": [
+      "axe",
+      "copper"
+    ],
+    "i:minecraft:golden_shovel:0": [
+      "shovel",
+      "copper"
+    ],
+    "i:minecraft:golden_hoe:0": [
+      "hoe",
+      "copper"
+    ],
+    "i:minecraft:golden_sword:0": [
+      "sword",
+      "copper"
+    ]
+  },
+  "_mortar": "Hand grinding with a mortar (the export has no mortar recipes). Any '<X> Ingot' or gem with a matching '<X> Dust' also works, 1 to 1.",
+  "mortar": [
+    {
+      "in": "i:minecraft:gravel:0",
+      "out": "i:minecraft:flint:0",
+      "amount": 1
+    },
+    {
+      "in": "i:minecraft:clay_ball:0",
+      "out": "<dustClay>",
+      "amount": 1
+    }
+  ],
+  "_fuels": "Burn time in ticks (20 ticks = 1 second). A furnace smelt takes 200 ticks.",
+  "fuels": {
+    "i:minecraft:coal:0": 1600,
+    "i:minecraft:coal:1": 1600,
+    "i:Railcraft:fuel.coke:0": 3200,
+    "i:minecraft:coal_block:0": 16000,
+    "i:gregtech:gt.metaitem.01:8538": 1200,
+    "<dustCoal>": 1600,
+    "<dustCharcoal>": 1600,
+    "i:gregtech:gt.metaitem.01:2538": 1200,
+    "<logWood>": 300,
+    "<plankWood>": 300,
+    "<stickWood>": 100,
+    "<treeSapling>": 100,
+    "i:minecraft:lava_bucket:0": 20000
+  },
+  "furnaceTicks": 200,
+  "_power": "Steam and EU are pooled: boilers turn fuel into steam, turbines turn steam into EU when an electric machine needs it. Approximate GTNH values: 2 L of steam per EU.",
+  "boilers": {
+    "i:gregtech:gt.blockmachines:100": {
+      "name": "Small Coal Boiler",
+      "steamPerBurnTick": 3,
+      "pressure": "bronze"
+    },
+    "i:gregtech:gt.blockmachines:101": {
+      "name": "Large Coal Boiler",
+      "steamPerBurnTick": 5,
+      "pressure": "high"
+    }
+  },
+  "generators": {
+    "i:gregtech:gt.blockmachines:1120": {
+      "name": "Basic Steam Turbine",
+      "tier": 0,
+      "steamPerEU": 2
+    },
+    "i:gregtech:gt.blockmachines:1121": {
+      "name": "Advanced Steam Turbine",
+      "tier": 1,
+      "steamPerEU": 2
+    }
+  },
+  "steamMachines": {
+    "Steam": {
+      "durationMult": 2,
+      "steamPerEU": 2,
+      "maxTier": 0
+    },
+    "High Pressure": {
+      "durationMult": 1,
+      "steamPerEU": 2,
+      "maxTier": 0
+    }
+  },
+  "electricPrefixes": {
+    "Basic": 0,
+    "Advanced": 1
+  },
+  "fuelMachines": [
+    "i:minecraft:furnace:0"
+  ],
+  "primitiveMachines": {
+    "i:gregtech:gt.blockmachines:236": {
+      "name": "Coke Oven",
+      "structure": {
+        "i:gregtech:gt.blockcasings12:0": 25
+      }
+    },
+    "i:gregtech:gt.blockmachines:140": {
+      "name": "Bricked Blast Furnace",
+      "structure": {
+        "i:gregtech:gt.blockcasings4:15": 34
+      }
+    },
+    "i:minecraft:cauldron:0": {
+      "name": "Cauldron",
+      "structure": {}
+    }
+  },
+  "craftingTable": "i:minecraft:crafting_table:0",
+  "starterQuestLines": [
+    "AndSoItBegins",
+    "Tier0StoneAge",
+    "Tier05Steam",
+    "Tier1LV"
+  ],
+  "ages": [
+    {
+      "name": "Stone Age",
+      "line": "Tier0StoneAge"
+    },
+    {
+      "name": "Steam Age",
+      "line": "Tier05Steam",
+      "when": "any steam machine or boiler placed"
+    },
+    {
+      "name": "LV",
+      "line": "Tier1LV",
+      "when": "an LV machine and an LV generator placed"
+    },
+    {
+      "name": "MV",
+      "line": "Tier2MV",
+      "when": "an MV generator placed"
+    }
+  ]
+}
