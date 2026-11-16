@@ -1,5 +1,7 @@
 # Downloaded GTNH recipe data: unlicensed, every user fetches their own
 /data/
+# Game saves (text game)
+/saves/
 # User build plans (keep the example)
 /plans/*
 !/plans/example.json
